@@ -3,3 +3,5 @@ tensorflow
 pillow
 numpy
 gdown
+matplotlib
+seaborn
