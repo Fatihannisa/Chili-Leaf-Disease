@@ -7,18 +7,18 @@ Original file is located at
     https://colab.research.google.com/drive/1icxpPFxkpyksk2CV6RYiPfHTzVUMctbk
 """
 
-!pip install streamlit
-
 import streamlit as st
 import numpy as np
 from PIL import Image
 import tensorflow as tf
 import os
 import gdown
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-# URL Google Drive file model
-MODEL_URL = "https://drive.google.com/uc?export=download&id=12bYRNfO6tryeCjidDFQREgSAR23LdYTf"
-MODEL_PATH = "rempah_detection_model.h5"
+# URL Google Drive file model (gunakan URL unduhan langsung)
+MODEL_URL = "https://drive.google.com/drive/u/0/folders/1rkUZlKg0fgluTemeqLDrwXkEdaMFZEQP"
+MODEL_PATH = "chili_leaf_disease.h5"
 
 # Fungsi untuk mengunduh model jika belum ada
 def download_model():
@@ -29,7 +29,7 @@ def download_model():
 # Fungsi untuk memuat model
 @st.cache_resource
 def load_model():
-    download_model()
+    download_model() 
     model = tf.keras.models.load_model(MODEL_PATH)
     return model
 
@@ -40,43 +40,42 @@ def preprocess_image(image, target_size=(224, 224)):
     image = np.expand_dims(image, axis=0)  # Tambahkan batch dimension
     return image
 
-# Fungsi untuk memproses gambar
-def preprocess_image(image, target_size=(224, 224)):
-    image = image.resize(target_size)
-    image = np.array(image) / 255.0
-    image = np.expand_dims(image, axis=0)
-    return image
-
 # Fungsi untuk prediksi
 def predict_image(model, image):
     predictions = model.predict(image)
-    class_idx = np.argmax(predictions)
-    confidence = predictions[0][class_idx]
-    return class_idx, confidence
+    return predictions
 
 # Daftar nama kelas (sesuaikan dengan dataset Anda)
-class_names = [
-              "Adas", "Andaliman", "Asam Jawa", "Bawang Bombai", "Bawang Merah", "Bawang Putih", "Biji Ketumbar", "Bukan Rempah", "Bunga Lawang",
-              "Cengkeh", "Daun Jeruk", "Daun Kemangi", "Daun Ketumbar", "Daun Salam", "Jahe", "Jinten", "Kapulaga", "Kayu Manis", "Kayu Secang",
-              "Kemiri", "Kemukus", "Kencur", "Kluwek", "Kunyit", "Lada", "Lengkuas", "Pala", "Saffron", "Serai", "Vanili", "Wijen"
-              ]
+class_names = ["Bercak Daun", "Kekuningan", "Daun Keriting", "Kutu Kebul", "Sehat"] 
 
 # Mulai aplikasi Streamlit
-st.title("Aplikasi Deteksi dan Prediksi Rempah Indonesia")
-st.write("Unggah gambar rempah yang membuatmu bingung dan aplikasi akan memprediksi jenis rempah tersebut.")
+st.title("🌶️ Deteksi Penyakit Tanaman Cabai dari Citra Daun 🌶️")
+st.write("Unggah gambar daun cabai untuk mendeteksi apakah daun tersebut sehat atau memiliki penyakit.")
 
 # Upload gambar
 uploaded_file = st.file_uploader("Pilih gambar rempah", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)  # Buka gambar dengan PIL
-    st.image(image, caption="Gambar yang diunggah", use_column_width=True)  # Tampilkan gambar
+    st.image(image, caption="Unggah Gambar Daun Cabai", use_column_width=True, width=500)  # Tampilkan gambar dengan lebar sesuai kolom
 
     # Proses dan prediksi
     model = load_model()  # Muat model
     processed_image = preprocess_image(image)  # Proses gambar
-    class_idx, confidence = predict_image(model, processed_image)  # Prediksi
+    predictions = predict_image(model, processed_image)  # Prediksi
+
+    # Temukan kelas dengan prediksi tertinggi
+    class_idx = np.argmax(predictions)
+    confidence = predictions[0][class_idx]
 
     # Tampilkan hasil prediksi
-    st.write(f"**Jenis Rempah:** {class_names[class_idx]}")
-    st.write(f"**Kepercayaan Prediksi:** {confidence * 100:.2f}%")
+    st.write(f"**🔍Deteksi Penyakit:** {class_names[class_idx]}")
+    st.write(f"**🌟Kepercayaan Prediksi:** {confidence * 100:.2f}%")
+
+    # Buat diagram persentase prediksi untuk semua kelas
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(x=class_names, y=predictions[0], ax=ax, palette='viridis')
+    ax.set_xticklabels(class_names, rotation=90, fontsize=10)
+    ax.set_ylabel("🌟Kepercayaan (%)", fontsize=12)
+    ax.set_title("📊Prediksi Kepercayaan Setiap Kelas Rempah", fontsize=14)
+    st.pyplot(fig)
