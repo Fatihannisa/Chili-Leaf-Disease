@@ -46,7 +46,7 @@ def predict_image(model, image):
     return predictions
 
 # Daftar nama kelas (sesuaikan dengan dataset Anda)
-class_names = ["Bercak Daun", "Kekuningan", "Daun Keriting", "Kutu Kebul", "Sehat"] 
+class_names = ["Sehat", "Daun Keriting", "Bercak Daun", "Kutu Kebul", "Kekuningan"] 
 
 # Mulai aplikasi Streamlit
 st.title("🌶️ Deteksi Penyakit Tanaman Cabai 🌶️")
