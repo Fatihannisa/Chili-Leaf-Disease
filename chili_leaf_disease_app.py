@@ -49,7 +49,7 @@ def predict_image(model, image):
 class_names = ["Bercak Daun", "Kekuningan", "Daun Keriting", "Kutu Kebul", "Sehat"] 
 
 # Mulai aplikasi Streamlit
-st.title("🌶️ Deteksi Penyakit Tanaman Cabai dari Citra Daun 🌶️")
+st.title("🌶️ Deteksi Penyakit Tanaman Cabai 🌶️")
 st.write("Unggah gambar daun cabai untuk mendeteksi apakah daun tersebut sehat atau memiliki penyakit.")
 
 # Upload gambar
