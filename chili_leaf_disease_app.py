@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # URL Google Drive file model (gunakan URL unduhan langsung)
-MODEL_URL = "https://drive.google.com/uc?id=1Ta_Uz9zgL7FSsK3bdFQnAO9_ZJ61QGRT"
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1Ta_Uz9zgL7FSsK3bdFQnAO9_ZJ61QGRT"
 MODEL_PATH = "chili_leaf_disease.h5"
 
 # Fungsi untuk mengunduh model jika belum ada
