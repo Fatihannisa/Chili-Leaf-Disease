@@ -49,7 +49,7 @@ def predict_image(model, image):
 class_names = ["Sehat", "Daun Keriting", "Bercak Daun", "Kutu Kebul", "Kekuningan"] 
 
 # Mulai aplikasi Streamlit
-st.title("🌶️Deteksi Penyakit Tanaman Cabai")
+st.title("Deteksi Penyakit Tanaman Cabai 🌶️🌶️🌶️🌶️🌶️🌶️")
 st.write("Unggah gambar daun cabai untuk mendeteksi apakah daun tersebut sehat atau memiliki penyakit.")
 
 # Upload gambar
@@ -57,7 +57,7 @@ uploaded_file = st.file_uploader("Pilih gambar rempah", type=["jpg", "jpeg", "pn
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)  # Buka gambar dengan PIL
-    st.image(image, caption="Unggah Gambar Daun Cabai", use_column_width=True, width=500)  # Tampilkan gambar dengan lebar sesuai kolom
+    st.image(image, caption="Unggah Gambar Daun Cabai")  # Tampilkan gambar dengan lebar sesuai kolom
 
     # Proses dan prediksi
     model = load_model()  # Muat model
