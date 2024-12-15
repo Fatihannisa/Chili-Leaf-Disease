@@ -53,7 +53,7 @@ st.title("Aplikasi Deteksi Penyakit Pada Daun Tanaman Cabai🌶️")
 st.write("Unggah gambar daun cabai untuk mendeteksi apakah daun tersebut sehat atau memiliki penyakit.")
 
 # Upload gambar
-uploaded_file = st.file_uploader("Pilih gambar rempah", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Pilih gambar", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)  # Buka gambar dengan PIL
